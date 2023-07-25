@@ -1,4 +1,6 @@
 import React from 'react';
+// import ContactItem from '../ContactItem/ContactItem';
+
 
 export class ContactForm extends React.Component {
   state = {
@@ -45,24 +47,4 @@ export class ContactForm extends React.Component {
   }
 }
 
-export function ContactItem({ contact, handleDelete }) {
-  return (
-    <li>
-      Name: {contact.name}, Number: {contact.number}
-      <button onClick={handleDelete}>Delete</button>
-    </li>
-  );
-}
 
-export class ContactList extends React.Component {
-  render() {
-    const { contacts, handleDelete } = this.props;
-    return (
-      <ul>
-        {contacts.map((contact, index) => (
-          <ContactItem key={index} contact={contact} handleDelete={() => handleDelete(index)} />
-        ))}
-      </ul>
-    );
-  }
-}
