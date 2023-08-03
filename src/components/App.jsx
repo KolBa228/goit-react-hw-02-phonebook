@@ -16,6 +16,22 @@ export class App extends React.Component {
     filter: '',
   };
 
+  componentDidUpdate() {
+  const { contacts } = this.state;
+  localStorage.setItem('contacts', JSON.stringify(contacts));
+  };
+
+  componentDidMount() {
+  const storedContacts = localStorage.getItem('contacts');
+  if (storedContacts) {
+    try {
+      this.setState({ contacts: JSON.parse(storedContacts) });
+    } catch (error) {
+      console.error('Error parsing stored contacts:', error);
+    }
+  }
+  };
+
   addContact = (name, number) => {
     const { contacts } = this.state;
     const existingContact = contacts.find(
