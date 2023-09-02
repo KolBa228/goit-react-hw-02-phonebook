@@ -1,17 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { selectFilter } from '../../redux/store';
+import { useSelector } from 'react-redux';
 
-export const Filter = ({ filter, handleSearch }) => {
-  const handleChange = (e) => {
-    const { value } = e.currentTarget;
-    handleSearch(value);
+
+const Filter = ({ handleSearch }) => {
+  const filter = useSelector(selectFilter);
+  const handleByFilter = e => {
+    const value = e.target.value;
+    handleSearch(value.trim().toLowerCase());
   };
 
   return (
     <input
       type="text"
       placeholder="Search by name"
-      onChange={handleChange}
+      onChange={handleByFilter}
       value={filter}
     />
   );

@@ -1,25 +1,48 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import ContactItem from '../ContactItem/ContactItem';
+import { nanoid } from 'nanoid';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectContacts, selectFilter } from '../../redux/store';
 
-const ContactList = ({ contacts, handleDelete }) => {
+const ContactList = ({ handleDelete }) => {
+  const [visibleContacts, setVisibleContacts] = useState([]);
+
+  const contacts = useSelector(selectContacts);
+  const filter = useSelector(selectFilter);
+
+  const handleDeleteBtn = e => {
+    handleDelete(e.target.id);
+  };
+
+  useEffect(() => {
+    localStorage.setItem('userContacts', JSON.stringify(contacts));
+
+    const filteredContacts = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter)
+    );
+
+    setVisibleContacts(filteredContacts);
+  }, [contacts, filter]);
+
   return (
     <ul>
-      {contacts.map((contact, index) => (
-        <ContactItem key={index} contact={contact} handleDelete={() => handleDelete(index)} />
-      ))}
+      {visibleContacts.map(contact => {
+        return (
+          <li key={nanoid()}>
+            <p>
+              {contact.name}: {contact.number}
+            </p>
+            <button
+              type="button"
+              id={contact.id}
+              onClick={handleDeleteBtn}
+            >
+              Delete
+            </button>
+          </li>
+        );
+      })}
     </ul>
   );
-};
-
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  handleDelete: PropTypes.func.isRequired,
 };
 
 export default ContactList;
