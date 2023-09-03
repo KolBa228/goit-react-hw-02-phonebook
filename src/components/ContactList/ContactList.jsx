@@ -1,16 +1,24 @@
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectContacts, selectFilter } from '../../redux/store';
+import { deleteContact } from 'redux/slice';
 
-const ContactList = ({ handleDelete }) => {
+const ContactList = () => {
   const [visibleContacts, setVisibleContacts] = useState([]);
+  
+  const dispatch = useDispatch();
+
 
   const contacts = useSelector(selectContacts);
   const filter = useSelector(selectFilter);
 
+  const handleDeleteContact = id => {
+    dispatch(deleteContact(id));
+  };
+
   const handleDeleteBtn = e => {
-    handleDelete(e.target.id);
+    handleDeleteContact(e.target.id);
   };
 
   useEffect(() => {

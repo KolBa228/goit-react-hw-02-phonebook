@@ -1,14 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { selectFilter } from '../../redux/store';
-import { useSelector } from 'react-redux';
+import { setFilter } from 'redux/slice';
+import { useSelector, useDispatch } from 'react-redux';
 
 
-const Filter = ({ handleSearch }) => {
+const Filter = () => {
   const filter = useSelector(selectFilter);
+  const dispatch = useDispatch();
+
+  const handleFilterChange = value => {
+    dispatch(setFilter(value));
+  };
+
   const handleByFilter = e => {
     const value = e.target.value;
-    handleSearch(value.trim().toLowerCase());
+    handleFilterChange(value.trim().toLowerCase());
   };
 
   return (

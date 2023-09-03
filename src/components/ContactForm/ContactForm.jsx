@@ -1,12 +1,18 @@
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectContacts } from '../../redux/store';
+import { setContacts } from 'redux/slice';
 
-export const ContactForm = ({ addContact }) => {
+export const ContactForm = () => {
   const contacts = useSelector(selectContacts);
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const dispatch = useDispatch();
+
+    const addContact = newContact => {
+    dispatch(setContacts(newContact));
+  };
 
   const handleChangeName = e => {
     setName(e.target.value);
