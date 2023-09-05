@@ -22,8 +22,6 @@ const ContactList = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem('userContacts', JSON.stringify(contacts));
-
     const filteredContacts = contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter)
     );
