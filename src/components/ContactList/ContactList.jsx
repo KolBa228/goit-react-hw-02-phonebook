@@ -1,54 +1,38 @@
-import { nanoid } from 'nanoid';
-import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { selectContacts, selectFilter } from '../../redux/store';
-import { deleteContact } from 'redux/slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import {
+  selectFilteredContacts,
+  selectError,
+  selectIsLoading,
+} from '../../redux/selectors';
+import { Loader } from '../Loader/Loader';
+import { fetchContacts } from '../../redux/operations';
+import ContactItem from '../ContactItem/ContactItem';
 
 const ContactList = () => {
-  const [visibleContacts, setVisibleContacts] = useState([]);
-  
+  const filteredContacts = useSelector(selectFilteredContacts);
+  const error = useSelector(selectError);
+  const isLoading = useSelector(selectIsLoading);
+
   const dispatch = useDispatch();
 
-
-  const contacts = useSelector(selectContacts);
-  const filter = useSelector(selectFilter);
-
-  const handleDeleteContact = id => {
-    dispatch(deleteContact(id));
-  };
-
-  const handleDeleteBtn = e => {
-    handleDeleteContact(e.target.id);
-  };
-
   useEffect(() => {
-    const filteredContacts = contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter)
-    );
-
-    setVisibleContacts(filteredContacts);
-  }, [contacts, filter]);
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <ul>
-      {visibleContacts.map(contact => {
-        return (
-          <li key={nanoid()}>
-            <p>
-              {contact.name}: {contact.number}
-            </p>
-            <button
-              type="button"
-              id={contact.id}
-              onClick={handleDeleteBtn}
-            >
-              Delete
-            </button>
-          </li>
-        );
-      })}
+      {isLoading && !error ? (
+        <Loader />
+      ) : filteredContacts.length === 0 && !error ? (
+        <p>The Phonebook is empty. Add your first contact. 🫤</p>
+      ) : (
+        filteredContacts.map(({ id, name, number }) => (
+          <ContactItem key={id} contact={{ id, name, number }} />
+        ))
+      )}
     </ul>
   );
-};
+}
 
 export default ContactList;

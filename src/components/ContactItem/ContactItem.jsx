@@ -1,18 +1,24 @@
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { deleteContact } from '../../redux/operations';
 
-export default function ContactItem({ contact, handleDelete }) {
+const ContactItem = ({ contact }) => {
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteContact(contact.id));
+  };
+
   return (
     <li>
-      Name: {contact.name}, Number: {contact.number}
-      <button onClick={handleDelete}>Delete</button>
+      <h3>{contact.name}</h3>
+      <p>{contact.number}</p>
+      <button onClick={handleDelete}>Delate</button>
     </li>
   );
 }
-
 ContactItem.propTypes = {
-  contact: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    number: PropTypes.string.isRequired,
-  }).isRequired,
-  handleDelete: PropTypes.func.isRequired,
+  contact: PropTypes.object.isRequired,
 };
+
+export default ContactItem;

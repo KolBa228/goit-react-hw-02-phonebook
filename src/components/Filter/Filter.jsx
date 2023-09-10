@@ -1,38 +1,25 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { selectFilter } from '../../redux/store';
-import { setFilter } from 'redux/slice';
-import { useSelector, useDispatch } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { selectContacts, selectFilter } from '../../redux/selectors';
+import { setFilter } from '../../redux/filterSlice';
 
 const Filter = () => {
-  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
+  const filter = useSelector(selectFilter);
 
-  const handleFilterChange = value => {
-    dispatch(setFilter(value));
-  };
-
-  const handleByFilter = e => {
-    const value = e.target.value;
-    handleFilterChange(value.trim().toLowerCase());
+  const handleFilterChange = event => {
+    dispatch(setFilter(event.target.value.trim()));
   };
 
   return (
     <input
       type="text"
+      name="filter"
       placeholder="Search by name"
-      onChange={handleByFilter}
       value={filter}
+      onChange={handleFilterChange}
+      disabled={useSelector(selectContacts).length === 0}
     />
   );
-};
-
-Filter.propTypes = {
-  filter: PropTypes.string.isRequired,
-  handleSearch: PropTypes.func.isRequired,
-};
+}
 
 export default Filter;
-
-
