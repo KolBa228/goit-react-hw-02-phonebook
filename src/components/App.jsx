@@ -1,15 +1,45 @@
-import ContactForm from './ContactForm/ContactForm';
-import ContactList from './ContactList/ContactList';
-import Filter from './Filter/Filter';
+import { Route, Routes } from 'react-router-dom';
+import {Contacts} from 'pages/Contacts';
+import { Header } from './Header/Header';
+import { Home } from 'pages/Home/Home';
+import { RegisterPage } from 'pages/RegisterPage';
+import { LoginPage } from 'pages/LoginPage';
+import { LoginedPath } from 'layout/LoginedPath/LoginedPath';
+import { NotLoginedPath } from 'layout/NotLoginedPath/NotLoginedPath';
+
 export const App = () => {
   return (
-    <div>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <h2>Contacts</h2>
-      <Filter />
-      <ContactList />
-    </div>
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/register"
+          element={
+            <NotLoginedPath
+              redirectTo="/contacts"
+              component={<RegisterPage />}
+            />
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <NotLoginedPath
+              redirectTo="/contacts"
+              component={<LoginPage />} />
+          }
+        />
+        <Route
+          path="/contacts"
+          element={
+            <LoginedPath
+              redirectTo="/login"
+              component={<Contacts />} />
+          }
+        />
+      </Routes>
+    </>
   );
 }
 
