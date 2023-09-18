@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginThunk, logoutThunk, registerThunk } from './authThunk';
+import { loginThunk, logoutThunk, registerThunk,fetchUserThunk } from './authThunk';
+
 
 const userInitialState = {
   name: null,
@@ -41,9 +42,18 @@ const authSlice = createSlice({
       state.name = null;
       state.token = null;
     },
+    [fetchUserThunk.pending]: handlePending,
+    [fetchUserThunk.rejected]: state => {
+      state.name = null;
+      state.token = null;
+    },
+    [fetchUserThunk.fulfilled]: (state, { payload }) => {
+      state.name = payload.name;
+    },
   },
 });
 
 export const { setUsername } = authSlice.actions;
 
 export default authSlice.reducer;
+

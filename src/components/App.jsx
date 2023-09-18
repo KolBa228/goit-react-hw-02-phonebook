@@ -6,8 +6,20 @@ import { RegisterPage } from 'pages/RegisterPage';
 import { LoginPage } from 'pages/LoginPage';
 import { LoginedPath } from 'layout/LoginedPath/LoginedPath';
 import { NotLoginedPath } from 'layout/NotLoginedPath/NotLoginedPath';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchUserThunk } from 'redux/authThunk';
 
 export const App = () => {
+
+  const dispatch = useDispatch()
+  // fetchUserThunk
+
+  useEffect(() => {
+    dispatch(fetchUserThunk())
+    
+  }, [dispatch])
+  
   return (
     <>
       <Header />

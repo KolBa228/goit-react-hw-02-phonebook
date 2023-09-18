@@ -43,4 +43,15 @@ export const deleteContact = async ({ token, id }) => {
   }
 };
 
+export const fetchUser = async token => {
+  const config = attachHeader(token);
+  try {
+    const response = await contactAPI.get('/users/current', config);
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 
