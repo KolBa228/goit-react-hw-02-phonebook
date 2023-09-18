@@ -1,25 +1,30 @@
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts, selectFilter } from '../../redux/selectors';
-import { setFilter } from '../../redux/filterSlice';
+import { setFilter } from 'redux/filterSlice';
 
-const Filter = () => {
-  const dispatch = useDispatch();
-  const filter = useSelector(selectFilter);
+export const Filter = () => {
+    const [input, setInput] = useState('')
+    const dispatch = useDispatch()
+    const contacts = useSelector((state) => state.contacts.contacts);
 
-  const handleFilterChange = event => {
-    dispatch(setFilter(event.target.value.trim()));
-  };
+    useEffect(() => {
+        if (!input) {
+            dispatch(setFilter(contacts))
+            return
+        }
+        const filtered = contacts.filter(contact =>
+            contact.name.toLowerCase().includes(input.toLowerCase())
+        );
+        dispatch(setFilter(filtered))
+    }, [input, contacts, dispatch])
 
-  return (
-    <input
-      type="text"
-      name="filter"
-      placeholder="Search by name"
-      value={filter}
-      onChange={handleFilterChange}
-      disabled={useSelector(selectContacts).length === 0}
-    />
-  );
-}
+    return (
 
-export default Filter;
+        <input
+            value={input}
+            type="text"
+            placeholder="Search by name"
+            onChange={(e) => setInput(e.target.value)}
+        />
+    );
+};

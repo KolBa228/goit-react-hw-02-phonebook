@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
-import {Contacts} from 'pages/Contacts';
+import {Contacts} from 'pages/Contacts/Contacts';
 import { Header } from './Header/Header';
 import { Home } from 'pages/Home/Home';
 import { RegisterPage } from 'pages/RegisterPage';

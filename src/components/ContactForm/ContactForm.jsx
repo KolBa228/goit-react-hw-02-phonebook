@@ -1,93 +1,66 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from '../../redux/operations';
-import Notiflix from 'notiflix';
-import { selectContacts } from '../../redux/selectors';
+import { addContactThunk } from '../../redux/contactThunk';
+import { AddInput, AddForm, AddBtn } from './ContactFormStyled.';
 
 const ContactForm = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-
-  const handleSubmit = event => {
-    event.preventDefault();
-
-    const contact = {
-      name: name,
-      number: number,
-    };
-
-    const isContactExist = contacts.find(
-      ({ name }) => name.toLowerCase() === contact.name.toLowerCase()
-    );
-
-    if (isContactExist) {
-      Notiflix.Report.warning(
-        'Alert',
-        `Contact with name ${contact.name} already exists!`,
-        'Ok'
-      );
-      return;
-    }
-
-    const isNumberExist = contacts.find(
-      contactInList =>
-        contact.number &&
-        contactInList.number &&
-        contact.number.replace(/\D/g, '') === contactInList.number.replace(/\D/g, '')
-    );
-
-    if (isNumberExist) {
-      Notiflix.Report.warning(
-        'Alert',
-        `Number ${contact.number} is already in contacts!`,
-        'Ok'
-      );
-      return;
-    }
-
-    dispatch(addContact(contact));
-    setName('');
-    setNumber('');
+const dispatch = useDispatch();
+  const [contact, setContact] = useState({
+    name: '',
+    number: '',
+  });
+  const contacts = useSelector(state => state.contacts.contacts)
+  const token = useSelector((state) => state.auth.token);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setContact((prevContact) => ({
+      ...prevContact,
+      [name]: value,
+    }));
   };
 
-  const handleNameChange = event => {
-    setName(event.target.value);
-  };
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (
+      contacts.find(
+        contacts => contacts.name.toLowerCase() === contact.name.toLowerCase()
+      )
+    ) {
+      alert('Contact already exists!');
+    } else {
+      dispatch(addContactThunk({ contact, token }))
+    }
 
-  const handleNumberChange = event => {
-    setNumber(event.target.value);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <AddForm onSubmit={onSubmit}>
       <p>Name</p>
-      <input
+      <AddInput
         type="text"
         name="name"
         placeholder="Enter name"
-        value={name}
-        onChange={handleNameChange}
+        value={contact.name}
+        onChange={handleChange}
         pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         required
       />
 
       <p>Number</p>
-      <input
+      <AddInput
         type="tel"
         name="number"
         placeholder="Enter phone number"
-        value={number}
-        onChange={handleNumberChange}
+        value={contact.number}
+        onChange={handleChange}
         pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
         title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
         required
       />
 
-      <button type="submit">Add contacts</button>
-    </form>
+      <AddBtn type="submit">Add contacts</AddBtn>
+    </AddForm>
   );
 };
 

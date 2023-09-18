@@ -7,7 +7,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+  
 }
 
 code {
@@ -17,8 +17,9 @@ code {
 
 body {
   background-color: #f2f2f2;
-  background-image: linear-gradient(45deg, #ff8a00, #e52e71);
+  /* background-image: linear-gradient(45deg, #ff8a00, #e52e71); */
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
