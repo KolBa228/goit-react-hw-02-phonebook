@@ -10,7 +10,6 @@ const dispatch = useDispatch();
     number: '',
   });
   const contacts = useSelector(state => state.contacts.contacts)
-  const token = useSelector((state) => state.auth.token);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setContact((prevContact) => ({
@@ -28,7 +27,7 @@ const dispatch = useDispatch();
     ) {
       alert('Contact already exists!');
     } else {
-      dispatch(addContactThunk({ contact, token }))
+      dispatch(addContactThunk({ contact }))
     }
 
   };

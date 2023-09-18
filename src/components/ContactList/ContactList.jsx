@@ -6,13 +6,12 @@ import {ContactLi} from './ContactListStyled';
 const ContactList = () => {
   const dispatch = useDispatch();
   const filtered = useSelector((state) => state.filter.filtered);
-  const token = useSelector((state) => state.auth.token);
   useEffect(() => {
-    dispatch(getContactThunk(token));
-  }, [dispatch, token]);
+    dispatch(getContactThunk());
+  }, [dispatch]);
 
   const handleRemoveContact = (id) => {
-    dispatch(delContactThunk({ id, token }));
+    dispatch(delContactThunk({ id }));
   };
   return (
     <>
