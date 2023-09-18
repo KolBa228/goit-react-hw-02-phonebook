@@ -30,7 +30,7 @@ const contactsSlice = createSlice({
     [addContactThunk.rejected]: handleRejeted,
     [addContactThunk.pending]: handlePending,
     [addContactThunk.fulfilled]: (state, { payload }) => {
-      state.contacts = [payload, state.contacts]
+      state.contacts = [payload, ...state.contacts]
     },
     [delContactThunk.pending]: handlePending,
     [delContactThunk.rejected]: handleRejeted,

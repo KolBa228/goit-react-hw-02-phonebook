@@ -19,9 +19,9 @@ export const Header = () => {
                     <li>
                         <Link to="/">Home</Link>
                     </li>
-                    <li>
+                    {token && <li>
                         <Link to="/contacts">Contacts</Link>
-                    </li>
+                    </li>}
                 </ul>
             </nav>
             <div>

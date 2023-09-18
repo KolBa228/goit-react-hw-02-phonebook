@@ -14,7 +14,6 @@ const ContactList = () => {
   const handleRemoveContact = (id) => {
     dispatch(delContactThunk({ id, token }));
   };
-
   return (
     <>
 

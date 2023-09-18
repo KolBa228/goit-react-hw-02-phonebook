@@ -26,7 +26,7 @@ const middleware = [
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['token', 'name'],
+  whitelist: ['token', 'name']
 };
 
 const rootReducer = combineReducers({
