@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { redirect } from "react-router-dom";
-import { registerThunk } from 'redux/authThunk';
+import { registerThunk } from '../../redux/authThunk';
 
 export const RegisterForm = () => {
     const [error, setError] = useState('')

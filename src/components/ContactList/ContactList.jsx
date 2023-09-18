@@ -1,37 +1,34 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import {
-  selectFilteredContacts,
-  selectError,
-  selectIsLoading,
-} from '../../redux/selectors';
-import { Loader } from '../Loader/Loader';
-import { fetchContacts } from '../../redux/operations';
-import ContactItem from '../ContactItem/ContactItem';
+import { delContactThunk, getContactThunk } from '../../redux/contactThunk';
+import {ContactLi} from './ContactListStyled';
 
 const ContactList = () => {
-  const filteredContacts = useSelector(selectFilteredContacts);
-  const error = useSelector(selectError);
-  const isLoading = useSelector(selectIsLoading);
-
   const dispatch = useDispatch();
-
+  const filtered = useSelector((state) => state.filter.filtered);
+  const token = useSelector((state) => state.auth.token);
   useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+    dispatch(getContactThunk(token));
+  }, [dispatch, token]);
+
+  const handleRemoveContact = (id) => {
+    dispatch(delContactThunk({ id, token }));
+  };
 
   return (
-    <ul>
-      {isLoading && !error ? (
-        <Loader />
-      ) : filteredContacts.length === 0 && !error ? (
-        <p>The Phonebook is empty. Add your first contact. 🫤</p>
-      ) : (
-        filteredContacts.map(({ id, name, number }) => (
-          <ContactItem key={id} contact={{ id, name, number }} />
-        ))
-      )}
-    </ul>
+    <>
+
+      <ul>
+        {filtered && filtered.map((contact) => (
+          <ContactLi key={contact.id}>
+            <span>
+              {contact.name} - {contact.number}
+            </span>
+            <button onClick={() => handleRemoveContact(contact.id)}>Delete</button>
+          </ContactLi>
+        ))}
+      </ul>
+    </>
   );
 }
 
