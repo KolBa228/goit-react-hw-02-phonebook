@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { delContactThunk, getContactThunk } from '../../redux/contactThunk';
-import {ContactLi} from './ContactListStyled';
+import {ContactLi, DelBtn} from './ContactListStyled';
 
 const ContactList = () => {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ const ContactList = () => {
             <span>
               {contact.name} - {contact.number}
             </span>
-            <button onClick={() => handleRemoveContact(contact.id)}>Delete</button>
+            <DelBtn onClick={() => handleRemoveContact(contact.id)}>Delete</DelBtn>
           </ContactLi>
         ))}
       </ul>

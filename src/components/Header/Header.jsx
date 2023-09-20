@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { logoutThunk } from 'redux/authThunk';
+import { StyledHeader, NavList, MenuList, HeaderBtn } from './HeaderStyled';
 
 export const Header = () => {
 
@@ -13,30 +14,30 @@ export const Header = () => {
     }
 
     return (
-        <header>
+        <StyledHeader>
             <nav>
-                <ul>
+                <NavList>
                     <li>
                         <Link to="/">Home</Link>
                     </li>
                     {token && <li>
                         <Link to="/contacts">Contacts</Link>
                     </li>}
-                </ul>
+                </NavList>
             </nav>
-            <div>
+            <div style={{ display: 'flex' }}>
             {username ? (
-                <div>
+                <MenuList>
                     <p>{username}</p>
-                    <button onClick={handleLogout} type='button'>Logout</button>
-                </div>
+                    <HeaderBtn onClick={handleLogout} type='button'>Logout</HeaderBtn>
+                </MenuList>
             ) : (
-                <div>
+                <MenuList>
                     <Link to="/login">Login</Link>
                     <Link to="/register">Register</Link>
-                </div>
+                </MenuList>
             )}
         </div>
-        </header>
+        </StyledHeader>
     );
 }

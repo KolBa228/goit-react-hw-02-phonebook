@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { redirect } from "react-router-dom";
 import { registerThunk } from '../../redux/authThunk';
+import { RegBtn, RegInput, RegForm } from './RegisterStyled';
 
 export const RegisterForm = () => {
     const [error, setError] = useState('')
@@ -25,28 +26,28 @@ export const RegisterForm = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <RegForm onSubmit={handleSubmit}>
                 {error && <p>{error}</p>}
                 <label>
                     <p>Name</p>
-                    <input
+                    <RegInput
                         required
                          type="name" name="name" />
                 </label>
                 <label>
                     <p>Email</p>
-                    <input
+                    <RegInput
                         required
                          type="email" name="email" />
                 </label>
                 <label>
                     <p>Password</p>
-                    <input required
+                    <RegInput required
                         minLength="7"
                          type="password" name="password" />
                 </label>
-                <button type="submit">Register</button>
-            </form>
+                <RegBtn type="submit">Register</RegBtn>
+            </RegForm>
         </>
     );
 };

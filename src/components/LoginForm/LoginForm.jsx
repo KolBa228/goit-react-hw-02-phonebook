@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { redirect } from 'react-router-dom';
 import { loginThunk } from 'redux/authThunk';
+import { LogForm, LogInput, LogBtn } from './LoginStyled';
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
@@ -17,16 +18,16 @@ export const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} >
+    <LogForm onSubmit={handleSubmit} >
       <label>
         <p>Email</p>
-        <input type="email" name="email" />
+        <LogInput type="email" name="email" />
       </label>
       <label>
         <p>Password</p>
-        <input type="password" name="password" />
+        <LogInput type="password" name="password" />
       </label>
-      <button type="submit">Log In</button>
-    </form>
+      <LogBtn type="submit">Log In</LogBtn>
+    </LogForm>
   );
 };
